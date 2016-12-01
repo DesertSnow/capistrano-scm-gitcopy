@@ -86,7 +86,7 @@ module Capistrano
         context.expects(:fetch).with(:application).returns('rspec-test')
         context.expects(:fetch).with(:current_revision).returns('ABCDEF')
 
-        context.expects(:execute).with(:git, :archive, :branch, 'tree', '--format', 'tar', "|gzip > /tmp/rspec-test-ABCDEF.tar.gz")
+        context.expects(:execute).with(:git, :archive, "branch:tree", '--format', 'tar', "|gzip > /tmp/rspec-test-ABCDEF.tar.gz")
 
         subject.release
       end

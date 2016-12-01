@@ -38,12 +38,16 @@ namespace :gitcopy do
     local_path = fetch(:local_path)
 
     run_locally do
-      execute :mkdir, '-p', local_path
+      if !test("[ -d #{fetch(:local_path)} ]")
+        execute :mkdir, '-p', local_path
 
-      within local_path do
-        with fetch(:git_environmental_variables) do
-          strategy.clone
+        within local_path do
+          with fetch(:git_environmental_variables) do
+            strategy.clone
+          end
         end
+      else
+        info("Git repo '#{fetch(:local_path)}' already exists. This will only be updated")
       end
     end
   end

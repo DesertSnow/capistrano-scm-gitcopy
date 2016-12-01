@@ -53,8 +53,7 @@ class Capistrano::GitCopy < Capistrano::SCM
     def release
       if (tree = fetch(:repo_tree))
         tree = tree.slice %r#^/?(.*?)/?$#, 1
-        components = tree.split('/').size
-        git :archive, fetch(:branch), tree, '--format', 'tar', "|gzip > #{local_tarfile}"
+        git :archive, "#{fetch(:branch)}:#{tree}", '--format', 'tar', "|gzip > #{local_tarfile}"
       else
         git :archive, fetch(:branch), '--format', 'tar', "|gzip > #{local_tarfile}"
       end
